@@ -16,6 +16,10 @@ type responseWriter struct {
 }
 
 func (w responseWriter) Write(b []byte) (n int, err error) {
+	if it := w.processResponseHeaders(); it != nil {
+		// transaction was interrupted :(
+		return
+	}
 	w.WriteHeaderNow()
 	n, err = w.tx.ResponseBodyBuffer.Write(b)
 	w.size += n
@@ -37,6 +41,7 @@ func (w *responseWriter) processResponseHeaders() *coraza.Interruption {
 	if w.headersProcessed || w.tx.Interruption != nil {
 		return w.tx.Interruption
 	}
+	w.headersProcessed = true
 	for k, vv := range w.ResponseWriter.Header() {
 		for _, v := range vv {
 			w.tx.AddResponseHeader(k, v)
