@@ -2,6 +2,14 @@ This is a test middleware for Ginonic powered by [Coraza Web Application Firewal
 
 Looking for contributors and testers.
 
+## Important
+
+If you are running Coraza without the CGO dependencies (libinjection and libpcre), first set CGO_ENABLED to 0:
+
+```sh
+export CGO_ENABLED=0
+```
+
 ## How to use
 
 ```go
