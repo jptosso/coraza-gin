@@ -1,4 +1,4 @@
-This is a test middleware for Gintonic
+This is a test middleware for Ginonic powered by [Coraza Web Application Firewall](https://github.com/jptosso/coraza-waf). You may check the WAF documentation at [coraza.io](https://coraza.io/)
 
 Looking for contributors and testers.
 
