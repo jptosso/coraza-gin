@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	coraza "github.com/jptosso/coraza-waf"
+	"github.com/jptosso/coraza-waf/v2"
 )
 
 func Coraza(waf *coraza.Waf) gin.HandlerFunc {
@@ -31,7 +31,12 @@ func Coraza(waf *coraza.Waf) gin.HandlerFunc {
 			forbidden(c, tx)
 		}
 		// we dump the body to the writer
-		io.Copy(oldwriter, tx.ResponseBodyBuffer.Reader())
+		reader, err := tx.ResponseBodyBuffer.Reader()
+		if err != nil {
+			renderError(c, "Coraza: Failed to get response body reader")
+			return
+		}
+		io.Copy(oldwriter, reader)
 	}
 }
 
@@ -40,5 +45,5 @@ func renderError(c *gin.Context, content string) {
 }
 
 func forbidden(c *gin.Context, tx *coraza.Transaction) {
-	c.JSON(http.StatusForbidden, gin.H{"status": "interrupted", "transaction": tx.Id})
+	c.JSON(http.StatusForbidden, gin.H{"status": "interrupted", "transaction": tx.ID})
 }

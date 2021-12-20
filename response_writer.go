@@ -4,7 +4,8 @@ import (
 	"io"
 
 	"github.com/gin-gonic/gin"
-	coraza "github.com/jptosso/coraza-waf"
+	"github.com/jptosso/coraza-waf/v2"
+	"github.com/jptosso/coraza-waf/v2/types"
 )
 
 type responseWriter struct {
@@ -37,7 +38,7 @@ func (w *responseWriter) WriteString(s string) (n int, err error) {
 	return
 }
 
-func (w *responseWriter) processResponseHeaders() *coraza.Interruption {
+func (w *responseWriter) processResponseHeaders() *types.Interruption {
 	if w.headersProcessed || w.tx.Interruption != nil {
 		return w.tx.Interruption
 	}
