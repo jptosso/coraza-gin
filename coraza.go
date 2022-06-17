@@ -11,7 +11,12 @@ import (
 func Coraza(waf *coraza.Waf) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		tx := waf.NewTransaction()
-		defer tx.ProcessLogging()
+		defer func(){
+			tx.ProcessLogging()
+			if err := tx.Clean(); err != nil {
+				// do some error management
+			}
+		}()
 		if it, err := tx.ProcessRequest(c.Request); err != nil {
 			renderError(c, "Coraza: Failed to process request")
 			return
