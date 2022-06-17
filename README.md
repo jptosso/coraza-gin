@@ -2,28 +2,20 @@ This is a test middleware for Ginonic powered by [Coraza Web Application Firewal
 
 Looking for contributors and testers.
 
-## Important
-
-If you are running Coraza without the CGO dependencies (libinjection and libpcre), first set CGO_ENABLED to 0:
-
-```sh
-export CGO_ENABLED=0
-```
-
 ## How to use
 
 ```go
 import(
     //...
-    coraza"github.com/jptosso/coraza-waf"
-    "github.com/jptosso/coraza-waf/seclang"
+    "github.com/corazawaf/coraza"
+    "github.com/corazawaf/coraza/seclang"
     corazagin"github.com/jptosso/coraza-gin"
 )
 func main() {
     // Creates a router without any middleware by default
     r := gin.New()
     waf := coraza.NewWaf()
-    parser := seclang.NewParser(waf)
+    parser, _ := seclang.NewParser(waf)
     //parser.FromString(`#... some rules`)
     r.Use(corazagin.Coraza(waf))
 
