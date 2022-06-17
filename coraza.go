@@ -4,8 +4,8 @@ import (
 	"io"
 	"net/http"
 
+	"github.com/corazawaf/coraza/v2"
 	"github.com/gin-gonic/gin"
-	"github.com/jptosso/coraza-waf/v2"
 )
 
 func Coraza(waf *coraza.Waf) gin.HandlerFunc {
